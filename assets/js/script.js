@@ -10,14 +10,12 @@ $(document).ready(function () {
         if (validar(id)) {
             //$('#contenido').hide(300);
             consulta_api(id);
-            $('#contenido').show(500); 
+            $('#contenido').show(); 
         }
-
     });
 
 
     function mostrar_grafico(objeto) {
-
         let stats = []; // se crea arreglo para enviar al canvas
         
         //se recorre el objeto para darle el formato que recibe el canvas
@@ -41,7 +39,7 @@ $(document).ready(function () {
                 showInLegend: "true",
                 legendText: "{label}",
                 indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}",
+                indexLabel: "{label} - ({y})",
                 dataPoints: stats //se asigna el arreglo
             }]
         });
@@ -52,7 +50,7 @@ $(document).ready(function () {
         if(input == '' ){            
             $("#errorid").text("primero ingrese un numero");
             return false;
-        } else if(/[0-9]/.test(input)){            
+        } else if(!isNaN(parseInt(input))){            
             $("#errorid").text("");
             return true;
         }else{
@@ -65,7 +63,7 @@ $(document).ready(function () {
         
         $.ajax({
             type: "GET",
-            url:        "https://superheroapi.com/api/10160906972594027/"+id ,
+            url:        "https://www.superheroapi.com/api.php/10160906972594027/"+id ,
             success:    function(data) {
 
                 let nombre      = data.name;
