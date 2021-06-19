@@ -61,9 +61,10 @@ $(document).ready(function () {
 
     function consulta_api(id) {
         //se ejecuta consulta a la api por ajax
+        const token = "10160906972594027"; //ingrese aqui su token
         $.ajax({
             type: "GET",
-            url:        "https://www.superheroapi.com/api.php/10160906972594027/"+id ,
+            url:        "https://www.superheroapi.com/api.php/"+token+"/"+id ,
             success:    function(data) {
                 
                 //se verifica que no tenga error
