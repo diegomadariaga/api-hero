@@ -65,47 +65,54 @@ $(document).ready(function () {
             type: "GET",
             url:        "https://www.superheroapi.com/api.php/10160906972594027/"+id ,
             success:    function(data) {
-
-                let nombre      = data.name;
-                let conexiones  = data.connections['group-affiliation'];
-
-                let parrafo1    = `
-                    <h5>Nombre: ${nombre}</h5>
-                    <p>conexiones: ${conexiones}</p>
-                `;
+                console.log(data);
                 
-                $("#div_hero1").html(parrafo1);
+                if (data.response=="error") {
+                    alert(data.error);
+                } else {
+                    let nombre      = data.name;
+                    let conexiones  = data.connections['group-affiliation'];
 
-                let publicado           = data.biography.publisher;
-                let ocupacion           = data.work.occupation;
-                let primera_aparicion   = data.biography["first-appearance"];
-                let altura              = data.appearance.height['0']+ " - "+data.appearance.height['1'];
-                let peso                = data.appearance.weight['0']+ " - "+data.appearance.weight['1'];
-                let alianzas            = "";
-                
-                for (const property in data.biography.aliases) {
-                    alianzas = alianzas+` ${data.biography.aliases[property]}`;
+                    let parrafo1    = `
+                        <h5>Nombre: ${nombre}</h5>
+                        <p>conexiones: ${conexiones}</p>
+                    `;
+                    
+                    $("#div_hero1").html(parrafo1);
+
+                    let publicado           = data.biography.publisher;
+                    let ocupacion           = data.work.occupation;
+                    let primera_aparicion   = data.biography["first-appearance"];
+                    let altura              = data.appearance.height['0']+ " - "+data.appearance.height['1'];
+                    let peso                = data.appearance.weight['0']+ " - "+data.appearance.weight['1'];
+                    let alianzas            = "";
+                    
+                    for (const property in data.biography.aliases) {
+                        alianzas = alianzas+` ${data.biography.aliases[property]}`;
+                    }
+                    
+
+                    let parrafo2    = `
+                    <small>
+                        <p>publicado por: ${publicado}</p>
+                        <p>ocupacion: ${ocupacion}</p>
+                        <p>primera_aparicion: ${primera_aparicion}</p>
+                        <p>altura: ${altura}</p>
+                        <p>peso: ${peso}</p>
+                        <p>alianzas: ${alianzas}</p>
+                    </small>
+                    `;
+
+                    $("#div_hero2").html(parrafo2);
+                    
+                    $("#imagen").attr("src",data.image.url);
+
+
+                    mostrar_grafico(data);
                 }
                 
-
-                let parrafo2    = `
-                <small>
-                    <p>publicado por: ${publicado}</p>
-                    <p>ocupacion: ${ocupacion}</p>
-                    <p>primera_aparicion: ${primera_aparicion}</p>
-                    <p>altura: ${altura}</p>
-                    <p>peso: ${peso}</p>
-                    <p>alianzas: ${alianzas}</p>
-                </small>
-                `;
-
-                $("#div_hero2").html(parrafo2);
-                
-                $("#imagen").attr("src",data.image.url);
-
-
-                mostrar_grafico(data);
-            }
+            },
+            error: ()=> alert("no se pudo establecer conexion")
 
         });
     }
